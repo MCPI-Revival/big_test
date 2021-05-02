@@ -126,6 +126,43 @@ def decode_data_type(data_type: str, stream: object) -> Union[int, float, str, l
                 m_value.append(stream.read_int_le())
                 result.append([m_type, m_value])
         return result
+    if data_type == "Records":
+        records: list = []
+        count: int = stream.read_int_be()
+        for i in range(0, count):
+            index: list = []
+            index.append(stream.read_byte())
+            index.append(stream.read_byte())
+            index.append(stream.read_byte())
+            records.append(index)
+        return records
+    if data_type == "ChunkData":
+        pass
+    if data_type == "Items":
+        count: int = stream.read_unsigned_short_be()
+        items: list = []
+        for i in range(0, count):
+            item: list = []
+            item.append(stream.read_short_be())
+            item.append(stream.read_byte())
+            item.append(stream.read_short_be())
+            items.append(item)
+        return items
+    if data_type == "Armor":
+        items: list = []
+        for i in range(0, 4):
+            item: list = []
+            item.append(stream.read_short_be())
+            item.append(stream.read_byte())
+            item.append(stream.read_short_be())
+            items.append(item)
+        return items
+    if data_type == "Item":
+        item: list = []
+        item.append(stream.read_short_be())
+        item.append(stream.read_byte())
+        item.append(stream.read_short_be())
+        return item
 
 def encode_data_type(data_type: str, value: Union[int, float, str, list], stream: object) -> None:
     if data_type == "UnsignedByte":
@@ -198,6 +235,29 @@ def encode_data_type(data_type: str, value: Union[int, float, str, list], stream
                 stream.write_int_le(m_value[1])
                 stream.write_int_le(m_value[2])
         stream.write_byte(0x7f)
+    elif data_type == "Records":
+        stream.write_int_be(len(value))
+        for index in value:
+            stream.write_byte(index[0])
+            stream.write_byte(index[1])
+            stream.write_byte(index[2])
+    elif data_type == "ChunkData":
+        pass
+    elif data_type == "Items":
+        stream.write_unsigned_short_be(len(value))
+        for item in value:
+            stream.write_short_be(item[0])
+            stream.write_byte(item[1])
+            stream.write_short_be(item[3])
+    elif data_type == "Armor":
+        for item in value:
+            stream.write_short_be(item[0])
+            stream.write_byte(item[1])
+            stream.write_short_be(item[3])
+    elif data_type == "Item":
+        stream.write_short_be(value[0])
+        stream.write_byte(value[1])
+        stream.write_short_be(value[3])
     
 def decode_packet(data: bytes) -> dict:
     stream: object = binary_stream(data)
