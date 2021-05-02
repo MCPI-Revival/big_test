@@ -358,5 +358,79 @@
             "slots": "Items",
             "armor": "Armor"
         }
+    },
+    "DropItemPacket": {
+        "id": 173,
+        "fields": {
+            "entityId": "IntBE",
+            "type": "UnsignedByte",
+            "item": "Item"
+        }
+    },
+    "ContainerOpenPacket": {
+        "id": 174,
+        "fields": {
+            "windowId": "UnsignedByte",
+            "type": "UnsignedByte",
+            "slot": "UnsignedByte",
+            "title": "String"
+        }
+    },
+    "ContainerClosePacket": {
+        "id": 175,
+        "fields": {
+            "windowId": "UnsignedByte"
+        }
+    },
+    "ContainerSetSlotPacket": {
+        "id": 176,
+        "fields": {
+            "windowId": "UnsignedByte",
+            "slot": "UnsignedShortBE",
+            "item": "Item"
+        }
+    },
+    "ContainerSetDataPacket": {
+        "id": 177,
+        "fields": {
+            "windowId": "UnsignedByte",
+            "property": "ShortBE",
+            "value": "ShortBE"
+        }
+    },
+    "ContainerSetContentPacket": {
+        "id": 178,
+        "fields": {
+            "windowId": "UnsignedByte",
+            "slots": "Items"
+        }
+    },
+    "ContainerAckPacket": {
+        "id": 179,
+        "fields": {
+            "windowId": "UnsignedByte",
+            "unknown1": "ShortBE"
+        }
+    },
+    "ChatPacket": {
+        "id": 180,
+        "fields": {
+            "message": "String"
+        }
+    },
+    "SignUpdatePacket": {
+        "id": 181,
+        "fields": {
+            "x": "ShortBE",
+            "y": "UnsignedByte",
+            "z": "ShortBE",
+            "lines": "String"
+        }
+    },
+    "AdventureSettingsPacket": {
+        "id": 182,
+        "fields": {
+            "flags": "UnsignedIntBE"
+        }
     }
 }
