@@ -3,6 +3,7 @@ from rak_net.protocol.frame import frame
 import pi_protocol
 from pi_world.world import world
 
+map = world("pi_craft")
 rak_server: object = server(".".join(["0"] * 4), 19132)
 rak_server.name: str = "MCCPP;Demo;Dedicated Server"
    
@@ -111,8 +112,8 @@ class interface:
             self.broadcast_packet(packet.body)
         elif pid == 157:
             new_packet = pi_protocol.decode_packet(packet.body)
-            #chunk_data = self.map.get_chunk(new_packet["x"], new_packet["z"]).network_serialize()
-            #self.send_chunk(new_packet["x"], new_packet["z"], chunk_data)
+            chunk_data = self.map.get_chunk(new_packet["x"], new_packet["z"]).network_serialize()
+            self.send_chunk(new_packet["x"], new_packet["z"], chunk_data)
             
     def on_disconnect(self, connection: object) -> None:
         print(f"{connection.address.token} has disconnected.")
