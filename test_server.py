@@ -1,6 +1,7 @@
 from rak_net.server import server
 from rak_net.protocol.frame import frame
 import pi_protocol
+from pi_world.world import world
 
 rak_server: object = server(".".join(["0"] * 4), 19132)
 rak_server.name: str = "MCCPP;Demo;Dedicated Server"
@@ -20,6 +21,15 @@ class interface:
         for player in self.players.values():
             if player["connection"].address.token not in blacklist:
                 self.send_packet(data, player["connection"])
+                  
+    def send_chunk(self, x, z, data, connection):
+        new_packet = pi_protocol.encode_packet({
+            "id": 158,
+            "x": x,
+            "z": z,
+            "data": data
+        })
+        self.send_packet(new_packet, connection)
                 
     def init_players(self, connection):
         for player in self.players.values():
