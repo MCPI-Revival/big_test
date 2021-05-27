@@ -109,6 +109,10 @@ class interface:
             self.players[connection.address.token]["pitch"] = new_packet["pitch"]
             self.players[connection.address.token]["yaw"] = new_packet["yaw"]
             self.broadcast_packet(packet.body)
+        elif pid == 157:
+            new_packet = pi_protocol.decode_packet(packet.body)
+            #chunk_data = self.map.get_chunk(new_packet["x"], new_packet["z"]).network_serialize()
+            #self.send_chunk(new_packet["x"], new_packet["z"], chunk_data)
             
     def on_disconnect(self, connection: object) -> None:
         print(f"{connection.address.token} has disconnected.")
