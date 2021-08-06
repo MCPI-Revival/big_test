@@ -191,9 +191,11 @@ class connection:
                 new_packet.compound_size: int = len(fragmented_body)
                 new_packet.index: int = index
                 new_packet.body: bytes = body
-                if index != 0:
+                if index > 0:
                     new_packet.reliable_frame_index: int = self.server_reliable_frame_index
                     self.server_reliable_frame_index += 1
+                else:
+                    new_packet.reliable_frame_index: int = self.server_reliable_frame_index
                 if new_packet.reliability == 3:
                     new_packet.ordered_frame_index: int = packet.ordered_frame_index
                     new_packet.order_channel: int = packet.order_channel
